@@ -1,0 +1,21 @@
+---
+- name: Install PHP Package for {{ansible_distribution}}
+  apt: name={{item}} state=present
+  with_items:
+      - php-common
+      - php-cli
+      - php-fpm
+      - php-json
+      - php-mysql
+      - php-curl
+      - php-ldap
+      - php-pdo
+      - php-pear
+      - php-gd
+      - php-mbstring
+      - php-xml
+      - php-xmlrpc
+      - php-bcmath
+
+  tags:
+    - php81-installation

@@ -1,0 +1,15 @@
+---
+- name: Reconfigure tzdata
+  command: dpkg-reconfigure -f noninteractive tzdata
+
+- name: Restart ntp
+  service: name=ntp state=restarted
+
+- name: Cleaning up
+  shell: sudo yum -y autoremove
+
+- name: test connection
+  ping:
+
+- name: print server used space
+  command: df -h

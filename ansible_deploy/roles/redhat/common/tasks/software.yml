@@ -1,0 +1,11 @@
+---
+- name: 'Install base software'
+  yum: name={{ item }} state=present
+  with_items:
+    - vim
+    - curl
+    - wget
+    - git
+    - zip
+    - unzip
+    - epel-release

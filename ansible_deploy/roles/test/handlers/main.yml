@@ -1,0 +1,4 @@
+---
+- name: Print server used space
+  command: df -h
+

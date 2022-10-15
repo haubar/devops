@@ -1,0 +1,85 @@
+
+
+---
+
+#mysql
+
+mysql_root_password: root
+mysql_databases:
+  - name: i3fresh_db
+    encoding:  utf8_general_ci
+    collation: utf8_general_ci
+mysql_users:
+  - name: i3fresh
+    host: "%"
+    password: hserf3i
+    priv: "i3fresh_db.*:ALL"
+mysql_packages:
+  - mariadb-client
+  - mariadb-server
+  - python-mysqldb
+
+
+
+# php
+php_executable: "php"
+#php_memory_limit: "128M"
+#php_max_execution_time: "90"
+#php_upload_max_filesize: "256M"
+php_packages:
+  - php5-cli
+  - php5-json
+  - php5-common
+  - php5-dev
+  - php5-gd
+  - php5-mcrypt
+  - php5-curl
+  - php5-mysql
+  - php5-tidy
+  - php5-xsl
+  - php5-fpm
+
+
+
+php_webserver_daemon: "nginx"
+php_enable_php_fpm: true
+php_install_recommends: no
+php_memory_limit: "256M"
+php_max_execution_time: "60"
+php_max_input_time: "60"
+php_max_input_vars: "1000"
+php_realpath_cache_size: "32K"
+php_upload_max_filesize: "64M"
+php_post_max_size: "32M"
+php_date_timezone: "Asia/Taipei"
+php_allow_url_fopen: "On"
+php_sendmail_path: "/usr/sbin/sendmail -t -i"
+php_output_buffering: "4096"
+php_short_open_tag: false
+php_error_reporting: "E_ALL & ~E_DEPRECATED & ~E_STRICT"
+php_display_errors: "Off"
+php_display_startup_errors: "On"
+php_expose_php: "On"
+php_session_cookie_lifetime: 0
+php_session_gc_probability: 1
+php_session_gc_divisor: 1000
+php_session_gc_maxlifetime: 1440
+php_session_save_handler: files
+php_session_save_path: ''
+
+
+php_opcache_enable: "0"
+php_opcache_enable_cli: "0"
+php_opcache_memory_consumption: "96"
+php_opcache_interned_strings_buffer: "16"
+php_opcache_max_accelerated_files: "4096"
+php_opcache_max_wasted_percentage: "5"
+php_opcache_validate_timestamps: "1"
+php_opcache_revalidate_path: "0"
+php_opcache_revalidate_freq: "2"
+php_opcache_max_file_size: "0"
+
+php_enable_apc: false
+
+php_apc_shm_size: "96M"
+php_apc_enable_cli: "0"

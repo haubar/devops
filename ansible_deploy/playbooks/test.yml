@@ -1,0 +1,35 @@
+---
+- name: TEST
+  hosts: docker
+  remote_user: root
+  become: true
+  gather_facts: false
+
+  pre_tasks:
+    - name: check python install
+      import_tasks: 'checkenv.yml'
+
+  tasks:
+    # task 1
+    - name: test connection
+      ping:
+
+    # task 2
+    - name: print server used space
+      command: df -h
+
+    - name: system update
+      shell: apt -y update
+      when: ansible_os_family == 'Debian'
+
+    - name: system update
+      shell: yum -y update
+      when: ansible_os_family == 'RedHat'
+
+    - name: Cleaning up
+      shell: apt -y autoremove
+      when: ansible_os_family == 'Debian'
+
+    - name: Cleaning up
+      shell: yum -y autoremove
+      when: ansible_os_family == 'RedHat'

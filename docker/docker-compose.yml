@@ -1,0 +1,75 @@
+version: "3"
+
+services:
+    web:
+        extends:
+            file: ./list/nginx.yml
+            service: nginx
+        restart: always
+        expose:
+            - "80"
+        ports:
+            - "80:80"
+        depends_on:
+            - php
+        tty: true
+        networks:
+            - lnmp
+    php:
+        build:
+            context: ./data/php/docker
+            args:
+                - PHP_VERSION=${PHP_VERSION}
+        restart: always
+        container_name: php
+        volumes:
+            - ${SITE_PATH}:/var/www/html
+            - ./data/php/php.ini:/usr/local/etc/php/php.ini
+            - ./data/php/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+        expose:
+            - "9000"
+        depends_on:
+            - "mysql"
+        stdin_open: true
+        tty: true
+        networks:
+            - lnmp
+    mysql:
+        build:
+            context: ./data/mysql/${MYSQL_DOCKERFILE}/docker
+            args:
+                - MYSQL_VERSION=${MYSQL_VERSION}
+        # 符合mac M1 裝直
+        platform: linux/amd64
+        restart: always
+        container_name: mysql
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: true
+            MYSQL_ROOT_PASSWORD: 1234
+        volumes:
+            - ./data/mysql/${MYSQL_DOCKERFILE}/my.cnf:/etc/mysql/my.cnf
+            - ./data/mysql/${MYSQL_DOCKERFILE}/conf.d/mysql.cnf:/etc/mysql/mysql.conf.d/mysql.cnf
+        expose:
+            - "3306"
+        ports:
+            - "3306:3306"
+        networks:
+            - lnmp
+    redis:
+        build:
+            context: ./data/redis/docker
+            args:
+                - REDIS_VERSION=${REDIS_VERSION}
+        restart: always
+        container_name: redis
+        volumes:
+            - ./data/redis/redis.conf:/etc/redis/redis.conf
+        expose:
+            - "6379"
+        ports:
+            - "6379:6379"
+        networks:
+            - lnmp
+
+networks:
+    lnmp:
